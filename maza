@@ -9,9 +9,6 @@ THIS_OS=$(uname -mrs)
 PROGNAME=$(basename $0)
 [[ -z "${XDG_CONFIG_HOME}" ]] && CONFIG=$HOME/.maza/ || CONFIG=$XDG_CONFIG_HOME/maza
 HOST_FILE=(/etc/hosts)
-COLOR_RED=`tput setaf 1`
-COLOR_GREEN=`tput setaf 2`
-COLOR_RESET=`tput sgr0`
 LIST="list"
 LIST_DNSMASQ="dnsmasq.conf"
 START_TAG="## MAZA - List ad blocking"
@@ -27,7 +24,7 @@ custom-sed() {
         if [ -x "$(command -v gsed)" ]; then
             gsed "$@"
         else
-            echo "${COLOR_RED}ERROR. You must install gsed if you are using OSX${COLOR_RESET}"
+            echo "ERROR. You must install gsed if you are using OSX"
             exit 1
         fi
     else
@@ -63,9 +60,9 @@ EOF
 
 status() {
     if grep -qF "$START_TAG" "$HOST_FILE";then
-        echo "${COLOR_GREEN}ENABLED${COLOR_RESET}"
+        echo "ENABLED"
     else
-        echo "${COLOR_RED}DISABLED${COLOR_RESET}"
+        echo "DISABLED"
     fi
 }
 
@@ -100,7 +97,7 @@ update() {
     rm "$CONFIG$LIST.bak"
     rm "$CONFIG$LIST_DNSMASQ.bak"
     # Notify user
-    echo "${COLOR_GREEN}List updated!${COLOR_RESET}"
+    echo "List updated!"
 }
 
 start() {
@@ -108,7 +105,7 @@ start() {
     # Add List to host file
     cat "$CONFIG/$LIST" >> "$HOST_FILE"
     # Notify user
-    echo "${COLOR_GREEN}ENABLED!${COLOR_RESET}"
+    echo "ENABLED!"
 }
 
 stop() {
@@ -119,7 +116,7 @@ stop() {
     cat /dev/null > $CONFIG$LIST_DNSMASQ
 
     # Notify user
-    echo "${COLOR_GREEN}DISABLED!${COLOR_RESET}"
+    echo "DISABLED!"
 }
 
 # CONTROLE ARGUMENTS
